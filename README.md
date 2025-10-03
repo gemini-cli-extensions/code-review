@@ -19,7 +19,7 @@ The Code Review extension adds the `/code-review` command to Gemini CLI which an
 
 ## Resources
 
-- [Gemini CLI extensions](https://github.com/google-gemini/gemini-cli/blob/main/docs/extension.md): Documentation about using extensions in Gemini CLI
+- [Gemini CLI extensions](https://github.com/google-gemini/gemini-cli/blob/main/docs/extensions/index.md): Documentation about using extensions in Gemini CLI
 - Blog post (coming soon!): More information about the Code Review extension
 - [GitHub issues](https://github.com/gemini-cli-extensions/code-review/issues): Report bugs or request features
 
