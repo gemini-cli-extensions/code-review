@@ -11,7 +11,7 @@ gemini extensions install https://github.com/gemini-cli-extensions/code-review
 ```
 
 If you do not yet have Gemini CLI installed, or if the installed version is older than 0.4.0, see
-[Gemni CLI installation instructions](https://github.com/google-gemini/gemini-cli?tab=readme-ov-file#-installation).
+[Gemini CLI installation instructions](https://github.com/google-gemini/gemini-cli?tab=readme-ov-file#-installation).
 
 ## Use the extension
 
