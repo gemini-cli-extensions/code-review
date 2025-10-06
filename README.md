@@ -2,6 +2,8 @@
 
 The Code Review extension is an open-source Gemini CLI extension, built to enhance your repository's code quality.  The extension adds a new command to Gemini CLI that analyzes code changes to identify a variety of code quality issues.
 
+This extension is brought to you by the authors of the [Gemini Code Assist GitHub App](https://github.com/apps/gemini-code-assist)
+
 ## Installation
 
 Install the Code Review extension by running the following command from your terminal *(requires Gemini CLI v0.4.0 or newer)*:
