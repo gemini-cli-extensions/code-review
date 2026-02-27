@@ -29,8 +29,7 @@ Provide **insightful feedback** and **concrete, ready-to-use code suggestions** 
     b. Files that are **imported/used by** the diff files or are **structurally neighboring** them (e.g., related configuration or test files).
 4. **Prioritize Analysis Focus**: Concentrate your deepest analysis on the application code (non-test files). For this code, meticulously trace the logic to uncover functional bugs and correctness issues. Actively consider edge cases, off-by-one errors, race conditions, and improper null/error handling. In contrast, perform a more cursory review of test files, focusing only on major errors (e.g., incorrect assertions) rather than style or minor refactoring opportunities.
 5. **Analyze the code for issues**, strictly classifying severity as one of: **CRITICAL**, **HIGH**, **MEDIUM**, or **LOW**.
-6. **Format all findings** following the exact structure and rules in the `<OUTPUT>` section.
-!{ [ "{{args}}" = "pr-review" ] && echo "7. **Submit the Review on GitHub** following the instruction in the <SUBMIT_REVIEW> section" || echo '' }
+!{ [ "{{args}}" = "pr-review" ] && echo "6. **Submit the Review on GitHub** following the instruction in the <SUBMIT_REVIEW> section" || echo '6. **Format all findings** following the exact structure and rules in the `<OUTPUT>` section.' }
 </INSTRUCTIONS>
 
 <CRITICAL_CONSTRAINTS>
@@ -62,49 +61,20 @@ Provide **insightful feedback** and **concrete, ready-to-use code suggestions** 
 * **LOW:** Refactoring hardcoded values to constants, minor log message enhancements, comments on docstring/Javadoc expansion, typos in documentation (.md files), comments on tests or test quality, suppressing unchecked warnings/TODOs.
 </CRITICAL_CONSTRAINTS>
 
-<OUTPUT>
-The output **MUST** be clean, concise, and structured exactly as follows.
-
-**If no issues are found:**
-
-# Change summary: [Single sentence description of the overall change].
-No issues found. Code looks clean and ready to merge.
-
-**If issues are found:**
-
-# Change summary: [Single sentence description of the overall change].
-[Optional general feedback for the entire change, e.g., unrelated change that should be in a different PR, or improved general approaches.]
-
-## File: path/to/file/one
-### L<LINE_NUMBER>: [<SEVERITY>] Single sentence summary of the issue.
-
-More details about the issue, including why it is an issue (e.g., "This could lead to a null pointer exception").
-
-Suggested change:
-```
-    while (condition) {
-      unchanged line;
--     remove this;
-+     replace it with this;
-+     and this;
-      but keep this the same;
-    }
-```
-
-### L<LINE_NUMBER_2>: [MEDIUM] Summary of the next problem.
-More details about this problem, including where else it occurs if applicable (e.g., "Also seen in lines L45, L67 of this file.").
-
-## File: path/to/file/two
-### L<LINE_NUMBER_3>: [HIGH] Summary of the issue in the next file.
-Details...
-</OUTPUT>
-
 !{ [ "{{args}}" = "pr-review" ] && {
     printf '
     <SUBMIT_REVIEW>
-    1. **Create Pending Review:** Use`create_pending_pull_request_review` tool. Ignore errors like "can only have one pending review per pull request" and proceed to the next step.
+    **Review Comment Formatting**
 
-    2. **Add Comments and Suggestions:** For each formulated review comment, use `add_comment_to_pending_review` tool.
+    - **Line Accuracy:** Ensure suggestions perfectly align with the line numbers and indentation of the code they are intended to replace.
+
+        - Comments on the before (LEFT) diff **MUST** use the line numbers and corresponding code from the LEFT diff.
+
+        - Comments on the after (RIGHT) diff **MUST** use the line numbers and corresponding code from the RIGHT diff.
+
+    1. **Create Pending Review:** Call `create_pending_pull_request_review`. Ignore errors like "can only have one pending review per pull request" and proceed to the next step.
+
+    2. **Add Comments and Suggestions:** For each formulated review comment, call `add_comment_to_pending_review`. 
 
         2a. For each suggested change, structure the comment payload using this exact template:
 
@@ -126,7 +96,7 @@ Details...
 
         ## 📋 Review Summary
 
-        A brief, high-level assessment of the Pull Request objective and quality (2-3 sentences).
+        A brief, high-level assessment of the Pull Request's objective and quality (2-3 sentences).
 
         ## 🔍 General Feedback
 
@@ -135,5 +105,44 @@ Details...
         </SUMMARY>
     </SUBMIT_REVIEW>
     '
-} || echo ''}
+} || {
+    printf '
+    <OUTPUT>
+    The output **MUST** be clean, concise, and structured exactly as follows.
+
+    **If no issues are found:**
+
+    # Change summary: [Single sentence description of the overall change].
+    No issues found. Code looks clean and ready to merge.
+
+    **If issues are found:**
+
+    # Change summary: [Single sentence description of the overall change].
+    [Optional general feedback for the entire change, e.g., unrelated change that should be in a different PR, or improved general approaches.]
+
+    ## File: path/to/file/one
+    ### L<LINE_NUMBER>: [<SEVERITY>] Single sentence summary of the issue.
+
+    More details about the issue, including why it is an issue (e.g., "This could lead to a null pointer exception").
+
+    Suggested change:
+    ```
+        while (condition) {
+        unchanged line;
+    -     remove this;
+    +     replace it with this;
+    +     and this;
+        but keep this the same;
+        }
+    ```
+
+    ### L<LINE_NUMBER_2>: [MEDIUM] Summary of the next problem.
+    More details about this problem, including where else it occurs if applicable (e.g., "Also seen in lines L45, L67 of this file.").
+
+    ## File: path/to/file/two
+    ### L<LINE_NUMBER_3>: [HIGH] Summary of the issue in the next file.
+    Details...
+    </OUTPUT>    
+    '
+}}
 """
