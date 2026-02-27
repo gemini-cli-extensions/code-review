@@ -18,7 +18,7 @@ Provide **insightful feedback** and **concrete, ready-to-use code suggestions** 
     **Additional User Instructions**: %s
     **Pull Review Details**: use `pull_request_read.get` tool to get the title, body, and metadata about the pull request.
     ' "$REPOSITORY" "$PULL_REQUEST_NUMBER" "$ADDITIONAL_CONTEXT"
-}}
+} || echo '' }
 </CONTEXT>
 
 <INSTRUCTIONS>
@@ -102,9 +102,9 @@ Details...
 !{ [ "{{args}}" = "pr-review" ] && {
     printf '
     <SUBMIT_REVIEW>
-    1. **Create Pending Review:** Call `create_pending_pull_request_review`. Ignore errors like "can only have one pending review per pull request" and proceed to the next step.
+    1. **Create Pending Review:** Use`create_pending_pull_request_review` tool. Ignore errors like "can only have one pending review per pull request" and proceed to the next step.
 
-    2. **Add Comments and Suggestions:** For each formulated review comment, call `add_comment_to_pending_review`.
+    2. **Add Comments and Suggestions:** For each formulated review comment, use `add_comment_to_pending_review` tool.
 
         2a. For each suggested change, structure the comment payload using this exact template:
 
@@ -126,7 +126,7 @@ Details...
 
         ## 📋 Review Summary
 
-        A brief, high-level assessment of the Pull Request's objective and quality (2-3 sentences).
+        A brief, high-level assessment of the Pull Request objective and quality (2-3 sentences).
 
         ## 🔍 General Feedback
 
@@ -135,5 +135,5 @@ Details...
         </SUMMARY>
     </SUBMIT_REVIEW>
     '
-}}
+} || echo ''}
 """
