@@ -10,15 +10,27 @@ Your primary goal is to **identify potential bugs, security vulnerabilities, per
 Provide **insightful feedback** and **concrete, ready-to-use code suggestions** to maintain high code quality and best practices. Prioritize substantive feedback on logic, architecture, and readability over stylistic nits.
 </OBJECTIVE>
 
+<CONTEXT>
+!{ [ "{{args}}" = "pr-review" ] && {
+    printf '
+    **GitHub Repository**: %s
+    **Pull Request Number**: %s
+    **Additional User Instructions**: %s
+    **Pull Review Details**: use `pull_request_read.get` tool to get the title, body, and metadata about the pull request.
+    ' "$REPOSITORY" "$PULL_REQUEST_NUMBER" "$ADDITIONAL_CONTEXT"
+}}
+</CONTEXT>
+
 <INSTRUCTIONS>
-1. **Execute the required command** to retrieve the changes: `git diff -U5 --merge-base origin/HEAD`.
+1. **Retrieve the changes**: !{ [ "{{args}}" = "pr-review" ] && echo 'call the `pull_request_read.get_diff` tool' || echo 'run `git diff -U5 --merge-base origin/HEAD`' }.
 2. **Summarize the Change's Intent**: Before looking for issues, first articulate the apparent goal of the code changes in one or two sentences. Use this understanding to frame your review.
-3. **Establish context** by reading relevant files. Prioritize:
+3. **Establish context** by reading relevant files and context. Prioritize:
     a. All files present in the diff.
     b. Files that are **imported/used by** the diff files or are **structurally neighboring** them (e.g., related configuration or test files).
 4. **Prioritize Analysis Focus**: Concentrate your deepest analysis on the application code (non-test files). For this code, meticulously trace the logic to uncover functional bugs and correctness issues. Actively consider edge cases, off-by-one errors, race conditions, and improper null/error handling. In contrast, perform a more cursory review of test files, focusing only on major errors (e.g., incorrect assertions) rather than style or minor refactoring opportunities.
 5. **Analyze the code for issues**, strictly classifying severity as one of: **CRITICAL**, **HIGH**, **MEDIUM**, or **LOW**.
 6. **Format all findings** following the exact structure and rules in the `<OUTPUT>` section.
+!{ [ "{{args}}" = "pr-review" ] && echo "7. **Submit the Review on GitHub** following the instruction in the <SUBMIT_REVIEW> section" || echo '' }
 </INSTRUCTIONS>
 
 <CRITICAL_CONSTRAINTS>
@@ -86,4 +98,42 @@ More details about this problem, including where else it occurs if applicable (e
 ### L<LINE_NUMBER_3>: [HIGH] Summary of the issue in the next file.
 Details...
 </OUTPUT>
+
+!{ [ "{{args}}" = "pr-review" ] && {
+    printf '
+    <SUBMIT_REVIEW>
+    1. **Create Pending Review:** Call `create_pending_pull_request_review`. Ignore errors like "can only have one pending review per pull request" and proceed to the next step.
+
+    2. **Add Comments and Suggestions:** For each formulated review comment, call `add_comment_to_pending_review`.
+
+        2a. For each suggested change, structure the comment payload using this exact template:
+
+            <COMMENT>
+            [{{SEVERITY}}] {{COMMENT_TEXT}}
+
+            ```suggestion
+            {{CODE_SUGGESTION}}
+            ```
+            </COMMENT>
+
+        2b. When there is no code suggestion, structure the comment payload using this exact template:
+
+            <COMMENT>
+            [{{SEVERITY}}] {{COMMENT_TEXT}}
+            </COMMENT>
+
+    3. **Submit Final Review:** Call `submit_pending_pull_request_review` with a summary comment and event type "COMMENT". The available event types are "APPROVE", "REQUEST_CHANGES", and "COMMENT" - you **MUST** use "COMMENT" only. **DO NOT** use "APPROVE" or "REQUEST_CHANGES" event types. The summary comment **MUST** use this exact markdown format:
+
+        ## 📋 Review Summary
+
+        A brief, high-level assessment of the Pull Request's objective and quality (2-3 sentences).
+
+        ## 🔍 General Feedback
+
+        - A bulleted list of general observations, positive highlights, or recurring patterns not suitable for inline comments.
+        - Keep this section concise and do not repeat details already covered in inline comments.
+        </SUMMARY>
+    </SUBMIT_REVIEW>
+    '
+}}
 """
