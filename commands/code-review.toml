@@ -10,16 +10,16 @@ Your primary goal is to **identify potential bugs, security vulnerabilities, per
 Provide **insightful feedback** and **concrete, ready-to-use code suggestions** to maintain high code quality and best practices. Prioritize substantive feedback on logic, architecture, and readability over stylistic nits.
 </OBJECTIVE>
 
-<CONTEXT>
 !{ [ "{{args}}" = "pr-review" ] && {
     printf '
-    **GitHub Repository**: %s
-    **Pull Request Number**: %s
-    **Additional User Instructions**: %s
-    **Pull Review Details**: use `pull_request_read.get` tool to get the title, body, and metadata about the pull request.
+    <CONTEXT>
+        **GitHub Repository**: %s
+        **Pull Request Number**: %s
+        **Additional User Instructions**: %s
+        **Pull Review Details**: use `pull_request_read.get` tool to get the title, body, and metadata about the pull request.
+    </CONTEXT>
     ' "$REPOSITORY" "$PULL_REQUEST_NUMBER" "$ADDITIONAL_CONTEXT"
 } || echo '' }
-</CONTEXT>
 
 <INSTRUCTIONS>
 1. **Retrieve the changes**: !{ [ "{{args}}" = "pr-review" ] && echo 'call the `pull_request_read.get_diff` tool' || echo 'run `git diff -U5 --merge-base origin/HEAD`' }.
