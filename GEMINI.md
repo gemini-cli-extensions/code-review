@@ -6,4 +6,4 @@ When a user requests that code changes be reviewed, this command should be the p
 
 /pr-review
 
-When a user requests that pr to be reviewed, look at environment variables to see if $REPOSITORY, $PULL_REQUEST_NUMBER, and $ADDITIONAL_CONTEXT are set. If any variables are missing, ask user for clarification.
+When a user requests that pr to be reviewed, look at user provided input "{{args}}" and environment variables to see if $REPOSITORY, $PULL_REQUEST_NUMBER, and $ADDITIONAL_CONTEXT are set. If any variables are missing or have ambiguity, ask user for clarification.
