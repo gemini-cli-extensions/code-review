@@ -17,8 +17,7 @@ If you do not yet have Gemini CLI installed, or if the installed version is olde
 
 ## Use the extension
 
-The Code Review extension adds the `/code-review` command to Gemini CLI which analyzes code changes on your current branch or specific pull request for quality issues.
-
+The Code Review extension adds the `/code-review` and `/pr-code-review` command to Gemini CLI which analyzes code changes on your current branch for quality issues.
 
 ### Reviewing a pull request
 
@@ -27,8 +26,7 @@ To use this extension for a pull request, you need to [enable](https://github.co
 - `PULL_REQUEST_NUMBER`: The pull request number that need the code review.
 - `ADDITIONAL_CONTEXT`: Additional context or specific area that should focus on.
 
-Then trigger the review with `/code-review pr-review`.
-
+Then trigger the review with `/pr-code-review`.
 
 ## Resources
 
