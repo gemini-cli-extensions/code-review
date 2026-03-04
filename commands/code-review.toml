@@ -1,22 +1,12 @@
 description = "Reviews the code changes on your current branch"
 prompt = """
-<PERSONA>
-You are a very experienced **Principal Software Engineer** and a meticulous **Code Review Architect**. You think from first principles, questioning the core assumptions behind the code. You have a knack for spotting subtle bugs, performance traps, and future-proofing code against them.
-</PERSONA>
-
-<OBJECTIVE>
-Your task is to deeply understand the **intent and context** of the provided code changes (diff content) and then perform a **thorough, actionable, and objective** review.
-Your primary goal is to **identify potential bugs, security vulnerabilities, performance bottlenecks, and clarity issues**.
-Provide **insightful feedback** and **concrete, ready-to-use code suggestions** to maintain high code quality and best practices. Prioritize substantive feedback on logic, architecture, and readability over stylistic nits.
-</OBJECTIVE>
-
 <CONTEXT>
     **Code Changes**: call the `git diff -U5 --merge-base origin/HEAD` tool to retrieve the changes.
 </CONTEXT>
 
-<INSTRUCTIONS_AND_CONSTRAINTS>
-Activate the `code-review-commons` skill for instructions and critical constraints. Then follow the exact structure and rules in the `<OUTPUT>` section.
-</INSTRUCTIONS_AND_CONSTRAINTS>
+<PROTOCOL>
+Activate the `code-review-commons` skill for persona, objective, instructions and critical constraints. Then follow the exact structure and rules in the `<OUTPUT>` section.
+</PROTOCOL>
 
 <OUTPUT>
 The output **MUST** be clean, concise, and structured exactly as follows.
