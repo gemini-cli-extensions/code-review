@@ -51,6 +51,5 @@ Activate the `code-review-commons` skill for persona, objective, instructions an
 
     - A bulleted list of general observations, positive highlights, or recurring patterns not suitable for inline comments.
     - Keep this section concise and do not repeat details already covered in inline comments.
-    </SUMMARY>
 </SUBMIT_REVIEW>
 """
